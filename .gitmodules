@@ -1,0 +1,9 @@
+[submodule "libzmq"]
+	path = libzmq
+	url = https://github.com/zeromq/libzmq
+[submodule "czmq"]
+	path = czmq
+	url = https://github.com/zeromq/czmq
+[submodule "pbc"]
+	path = pbc
+	url = https://github.com/cloudwu/pbc
