@@ -2,6 +2,7 @@
 #define __ZRPC_INCLUDE__
 
 #include "czmq.h"
+#include "zrpc_debug.h"
 
 typedef struct zrpc zrpc_t;
 

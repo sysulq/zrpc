@@ -42,7 +42,7 @@ int zrpc_poll(zrpc_t *zrpc)
 
         if (items.revents & ZMQ_POLLIN) {
             char *msg = zstr_recv(zrpc->zrpc_server);
-            printf("client msg:%s", msg);
+            dd("client msg:%s", msg);
             zrpc_sync_reply(zrpc, "WORLD");
             free(msg);
         }
@@ -61,13 +61,11 @@ int zrpc_sync_request(zrpc_t *zrpc, const char *request, char **reply)
     *reply = zstr_recv(zrpc->zrpc_client);
     if (!*reply)
         return -1;
-    printf("server reply:%s\n", *reply);
 }
 
 int zrpc_sync_reply(zrpc_t *zrpc, char *reply)
 {
-    printf("server reply:%s\n", reply);
-    zsocket_connect(zrpc->zrpc_server, "tcp://localhost:6655");
+    dd("server reply:%s\n", reply);
     zstr_send(zrpc->zrpc_server, reply);
 }
 

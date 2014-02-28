@@ -10,13 +10,14 @@ CFLAGS += -g -lzmq -lczmq
 all: $(TARGET) $(TEST)
 
 SRC = zrpc.c
+DEPS = zrpc.h zrpc_debug.h
 
 OBJ =  zrpc.o 
 
 $(TARGET): $(OBJ)
-	$(AR) -r $@ $<
+	$(AR) -r $@ $(OBJ)
 
-$(OBJ): $(SRC) 
+$(OBJ): $(SRC) $(DEPS)
 	$(CC) -c $(CFLAGS) $(SRC) -o $@
 
 client: test_client.c

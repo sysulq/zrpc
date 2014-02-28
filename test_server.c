@@ -7,7 +7,7 @@ int main()
 
     zrpc_poll(&zrpc);
 
-    printf("server reply done.");
+    dd("server reply done.");
 
     return 0;
 }
