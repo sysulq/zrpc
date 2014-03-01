@@ -11,13 +11,13 @@ A lightweight distributed RPC framework powered by pure C language and based on 
 
 ####libzmq
 
-    ./autoconf.sh
+    ./autogen.sh
     ./configure
     make && make install
 
 ####czmq
 
-    ./autoconf.sh
+    ./autogen.sh
     ./configure
     make && make install
 
