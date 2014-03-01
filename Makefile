@@ -7,7 +7,7 @@ TESTSRCS := test_client.c test_server.c
 LIBSRCS = zrpc.c
 DEPS = zrpc.h zrpc_debug.h
 
-CFLAGS += -g -lzmq -lczmq -I. -L.
+CFLAGS += -g -lzmq -lczmq -I../include
 
 all: $(BUILD) $(LIBNAME) test
 
@@ -37,11 +37,11 @@ TEST := $(TEST) $$(TAR)
 $$(TAR) : | $(BUILD)
 $$(TAR) : $(LIBNAME)
 $$(TAR) : test/$(1)
-	cd $(BUILD)/ && $(CC) $(LIBNAME) $(CFLAGS) -I../src -o $$(notdir $$@) ../$$<
+	cd $(BUILD)/ && $(CC) $(LIBNAME) $(CFLAGS) -o $$(notdir $$@) ../$$<
 endef
 $(foreach s,$(TESTSRCS),$(eval $(call TEST_action,$(s))))
 
 test: $(TEST)
 
 clean:
-	rm -rf *.o $(LIBNAME) $(TEST) $(BUILD)
+	rm -rf $(BUILD)
