@@ -1,3 +1,5 @@
+build
+
 # Object files
 *.o
 *.ko
@@ -11,6 +13,10 @@
 *.so
 *.so.*
 *.dylib
+
+*.dSYM
+
+*.DS_Store
 
 # Executables
 *.exe

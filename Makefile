@@ -1,30 +1,44 @@
 CC = gcc
 AR = ar
 
-TARGET = libzrpc.a
+DIR = $(echo $(shell pwd))
 
-TEST := client server
+LIBNAME = libzrpc.a
 
-CFLAGS += -g -lzmq -lczmq
+TESTSRCS := test_client.c test_server.c
 
-all: $(TARGET) $(TEST)
+CFLAGS += -g -lzmq -lczmq -I. -L.
+
+all: $(LIBNAME) test $(BUILD)
 
 SRC = zrpc.c
 DEPS = zrpc.h zrpc_debug.h
 
 OBJ =  zrpc.o 
 
-$(TARGET): $(OBJ)
+BUILD = build
+
+$(BUILD): 
+	mkdir -p $@
+
+$(LIBNAME): $(OBJ)
 	$(AR) -r $@ $(OBJ)
 
 $(OBJ): $(SRC) $(DEPS)
 	$(CC) -c $(CFLAGS) $(SRC) -o $@
 
-client: test_client.c
-	$(CC) $< $(TARGET) $(CFLAGS) -o $@
+TEST:=
+define TEST_action
+TAR := $(BUILD)/$(notdir $(basename $(1)))
+TEST := $(TEST) $$(TAR)
+$$(TAR) : | $(BUILD)
+$$(TAR) : $(LIBNAME)
+$$(TAR) : test/$(1)
+	cd $(BUILD)/ && $(CC) ../$(LIBNAME) $(CFLAGS) -o $$(notdir $$@) ../$$<
+endef
+$(foreach s,$(TESTSRCS),$(eval $(call TEST_action,$(s))))
 
-server: test_server.c
-	$(CC) $< $(TARGET) $(CFLAGS) -o $@
+test: $(TEST)
 
 clean:
-	rm -f *.o $(TARGET) $(TEST)
+	rm -rf *.o $(LIBNAME) $(TEST) $(BUILD)

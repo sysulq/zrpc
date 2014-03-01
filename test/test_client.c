@@ -1,4 +1,4 @@
-#include "zrpc.h"
+#include "../zrpc.h"
 
 int main()
 {
