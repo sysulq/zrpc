@@ -5,15 +5,15 @@ A lightweight distributed RPC framework powered by pure C language and based on 
 
 ###Download
 
-   git clone https://github.com/hnlq715/zrpc --recursive
+    git clone https://github.com/hnlq715/zrpc --recursive
 
 ###Installation
 
 ####libzmq
 
-   ./autoconf.sh
-   ./configure
-   make && make install
+    ./autoconf.sh
+    ./configure
+    make && make install
 
 ####czmq
 
@@ -23,9 +23,9 @@ A lightweight distributed RPC framework powered by pure C language and based on 
 
 ####pbc
 
-   make
+    make
 
 ####libzrpc
 
-   make
+    make
 
