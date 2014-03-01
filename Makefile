@@ -1,31 +1,34 @@
 CC = gcc
 AR = ar
 
-DIR = $(echo $(shell pwd))
-
 LIBNAME = libzrpc.a
 
 TESTSRCS := test_client.c test_server.c
+LIBSRCS = zrpc.c
+DEPS = zrpc.h zrpc_debug.h
 
 CFLAGS += -g -lzmq -lczmq -I. -L.
 
-all: $(LIBNAME) test $(BUILD)
-
-SRC = zrpc.c
-DEPS = zrpc.h zrpc_debug.h
-
-OBJ =  zrpc.o 
+all: $(BUILD) $(LIBNAME) test
 
 BUILD = build
 
 $(BUILD): 
 	mkdir -p $@
 
-$(LIBNAME): $(OBJ)
-	$(AR) -r $@ $(OBJ)
+LIB:=
+define LIB_action
+TAR := $(BUILD)/$(notdir $(basename $(1)))
+LIB := $(LIB) $$(TAR).o
+-include $$(TAR).d
+$$(TAR).o :| $(BUILD)
+$$(TAR).o : src/$(1)
+	$(CC) -c $(CFLAGS) -o $$@ $$<
+endef
+$(foreach s,$(LIBSRCS), $(eval $(call LIB_action,$(s))))
 
-$(OBJ): $(SRC) $(DEPS)
-	$(CC) -c $(CFLAGS) $(SRC) -o $@
+$(LIBNAME): $(LIB) $(BUILD)
+	cd $(BUILD) && $(AR) -r $@ $(addprefix ../,$(LIB))
 
 TEST:=
 define TEST_action
@@ -34,7 +37,7 @@ TEST := $(TEST) $$(TAR)
 $$(TAR) : | $(BUILD)
 $$(TAR) : $(LIBNAME)
 $$(TAR) : test/$(1)
-	cd $(BUILD)/ && $(CC) ../$(LIBNAME) $(CFLAGS) -o $$(notdir $$@) ../$$<
+	cd $(BUILD)/ && $(CC) $(LIBNAME) $(CFLAGS) -I../src -o $$(notdir $$@) ../$$<
 endef
 $(foreach s,$(TESTSRCS),$(eval $(call TEST_action,$(s))))
 
