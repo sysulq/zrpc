@@ -17,9 +17,9 @@ A lightweight distributed RPC framework powered by pure C language and based on 
 
 ####czmq
 
-   ./autoconf.sh
-   ./configure
-   make && make install
+    ./autoconf.sh
+    ./configure
+    make && make install
 
 ####pbc
 
