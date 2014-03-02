@@ -8,7 +8,7 @@ message Request {
     optional bytes payload = 5;
 }
 
-message Response {
+message Reply {
     enum Status {
         OK = 1;
         APPLICATION_ERROR = 2;

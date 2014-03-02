@@ -3,6 +3,9 @@
 
 #define DDEBUG 1
 
+#define ZRPC_OK 0
+#define ZRPC_ERR -1
+
 #if defined(DDEBUG) && (DDEBUG)
 
 #define dd(...) fprintf(stderr, "zrpc *** %s: ", __func__); \

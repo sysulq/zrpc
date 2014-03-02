@@ -89,4 +89,3 @@ int zrpc_sync_reply(zrpc_t *zrpc, char *reply)
     dd("server reply:%s\n", reply);
     zstr_send(zrpc->zrpc_server, reply);
 }
-

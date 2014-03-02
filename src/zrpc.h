@@ -1,11 +1,8 @@
 #ifndef __ZRPC_INCLUDE__
 #define __ZRPC_INCLUDE__
 
-#include "czmq.h"
+#include <czmq.h>
 #include "zrpc_debug.h"
-
-#define ZRPC_OK 0
-#define ZRPC_ERR -1
 
 typedef struct zrpc zrpc_t;
 
@@ -18,6 +15,11 @@ struct zrpc {
     void            *zrpc_client;
     zrpc_handler_fn *handler;
     void            *data;
+
+    int             version;
+    int             type;
+    int             length;
+    const char     *payload;
 };
 
 int zrpc_server_init(zrpc_t *zrpc, zrpc_handler_fn *handler);

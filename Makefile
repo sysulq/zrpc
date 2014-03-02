@@ -4,10 +4,12 @@ AR = ar
 LIBNAME = libzrpc.a
 
 TESTSRCS := test_client.c test_server.c
-LIBSRCS = zrpc.c
-DEPS = zrpc.h zrpc_debug.h
+LIBSRCS = zrpc.c zrpc_request.c zrpc_reply.c
+PROTOSRCS = zrpc.proto
 
-CFLAGS += -g -lzmq -lczmq -I../include
+DEPS = zrpc.h zrpc_pbc.h zrpc_debug.h
+
+CFLAGS += -g -lzmq -lczmq -lprotobuf-c -I../include -I../deps/pbc
 
 all: $(BUILD) $(LIBNAME) test
 
@@ -41,7 +43,19 @@ $$(TAR) : test/$(1)
 endef
 $(foreach s,$(TESTSRCS),$(eval $(call TEST_action,$(s))))
 
-test: $(TEST)
+test: $(TEST) proto
+
+PROTO :=
+define PROTO_action
+TAR := $(BUILD)/$(notdir $(basename $(1)))
+PROTO := $(PROTO) $$(TAR).pb
+$$(TAR).pb :| $(BUILD)
+$$(TAR).pb : src/$(1)
+	protoc -o$$@ $$<
+endef
+$(foreach s,$(PROTOSRCS),$(eval $(call PROTO_action,$(s))))
+
+proto: $(PROTO)
 
 clean:
 	rm -rf $(BUILD)

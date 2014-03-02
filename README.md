@@ -1,7 +1,7 @@
 zrpc
 ====
 
-A lightweight distributed RPC framework powered by pure C language and based on ZeroMQ and pbc.
+A lightweight distributed RPC framework powered by pure C language and based on ZeroMQ and protobuf-c.
 
 ###Download
 
