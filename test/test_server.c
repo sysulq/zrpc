@@ -2,21 +2,27 @@
 
 int test_handler(void *arg)
 {
-	zrpc_t *zrpc = (zrpc_t *)arg;
+	zrpc_server_t *server = (zrpc_server_t *)arg;
 
     dd("handler.");
-    zrpc_sync_reply(zrpc, "WORLD");
+    zrpc_sync_reply(server, "WORLD");
 }
 
 int main()
 {
-    zrpc_t *zrpc = zrpc_server_new();
+    zrpc_server_t *server = zrpc_server_new();
 
-    zrpc->service = zrpc_service_new(test_handler);
+    zrpc_service_t *service = zrpc_service_new();
 
-    zrpc_loop(zrpc);
+    zrpc_service_register(service, test_handler);
+
+    zrpc_server_register_service(server, service);
+
+    zrpc_loop(server);
 
     dd("server reply done.");
+
+    zrpc_server_destroy(server);
 
     return 0;
 }

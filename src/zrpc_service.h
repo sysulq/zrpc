@@ -12,6 +12,8 @@ struct zrpc_service {
     void                    *arg;  
 };
 
-zrpc_service_t *zrpc_service_new(zrpc_service_handler_fn *handler);
+zrpc_service_t *zrpc_service_new();
+
+int zrpc_service_handler(zrpc_service_t *self);
 
 #endif
