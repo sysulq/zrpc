@@ -1,9 +1,9 @@
 #include "zrpc.h"
 
-int zrpc_server_init(zrpc_t *zrpc, zrpc_handler_fn *handler)
+zrpc_t *zrpc_server_new()
 {
+    zrpc_t *zrpc = malloc(sizeof(zrpc_t));
     assert(zrpc);
-    memset(zrpc, 0, sizeof(zrpc_t));
 
     zrpc->zctx = zctx_new();
     assert(zrpc->zctx);
@@ -15,13 +15,14 @@ int zrpc_server_init(zrpc_t *zrpc, zrpc_handler_fn *handler)
     zsocket_bind(zrpc_server, "tcp://*:5566");
 
     zrpc->zrpc_server = zrpc_server;
-    zrpc->handler = handler;
+
+    return zrpc;
 }
 
-int zrpc_client_init(zrpc_t *zrpc)
+zrpc_t *zrpc_client_new()
 {
+    zrpc_t *zrpc = malloc(sizeof(zrpc_t));
     assert(zrpc);
-    memset(zrpc, 0, sizeof(zrpc_t));
 
     zrpc->zctx = zctx_new();
     assert(zrpc->zctx);
@@ -30,6 +31,8 @@ int zrpc_client_init(zrpc_t *zrpc)
     assert(zrpc_client);
 
     zrpc->zrpc_client = zrpc_client;
+
+    return zrpc;
 }
 
 int zrpc_exit(zrpc_t *zrpc)
@@ -50,8 +53,8 @@ static int loop_handler(zloop_t *loop, zmq_pollitem_t *item, void *arg)
     if (!zrpc->data)
         return ZRPC_ERR;
 
-    if (zrpc->handler) {
-        zrpc->handler(zrpc);
+    if (zrpc->service && zrpc->service->handler) {
+        zrpc->service->handler(arg);
         return ZRPC_OK;
     }
 

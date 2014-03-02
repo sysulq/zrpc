@@ -6,7 +6,7 @@
 #define PROTOBUF_C_NO_DEPRECATED
 #endif
 
-#include "src/zrpc.pb-c.h"
+#include "zrpc.pb-c.h"
 void   zrpc__request__init
                      (Zrpc__Request         *message)
 {

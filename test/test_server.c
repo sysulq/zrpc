@@ -1,17 +1,20 @@
 #include <zrpc.h>
 
-int test_handler(zrpc_t *zrpc)
+int test_handler(void *arg)
 {
+	zrpc_t *zrpc = (zrpc_t *)arg;
+
     dd("handler.");
     zrpc_sync_reply(zrpc, "WORLD");
 }
 
 int main()
 {
-    zrpc_t zrpc;
-    zrpc_server_init(&zrpc, test_handler);
+    zrpc_t *zrpc = zrpc_server_new();
 
-    zrpc_loop(&zrpc);
+    zrpc->service = zrpc_service_new(test_handler);
+
+    zrpc_loop(zrpc);
 
     dd("server reply done.");
 

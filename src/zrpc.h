@@ -3,27 +3,22 @@
 
 #include <czmq.h>
 #include "zrpc_debug.h"
+#include "zrpc_service.h"
 
 typedef struct zrpc zrpc_t;
-
-typedef int (zrpc_handler_fn) (zrpc_t *zrpc);
 
 struct zrpc {
     zctx_t          *zctx;
     zloop_t         *zloop;
     void            *zrpc_server;
     void            *zrpc_client;
-    zrpc_handler_fn *handler;
     void            *data;
 
-    int             version;
-    int             type;
-    int             length;
-    const char     *payload;
+    zrpc_service_t  *service;
 };
 
-int zrpc_server_init(zrpc_t *zrpc, zrpc_handler_fn *handler);
-int zrpc_client_init(zrpc_t *zrpc);
+zrpc_t *zrpc_server_new();
+zrpc_t *zrpc_client_new();
 int zrpc_exit(zrpc_t *zrpc);
 
 int zrpc_loop(zrpc_t *zrpc);

@@ -4,7 +4,7 @@ AR = ar
 LIBNAME = libzrpc.a
 
 TESTSRCS := test_client.c test_server.c
-LIBSRCS = zrpc.c zrpc_request.c zrpc_reply.c
+LIBSRCS = zrpc.c zrpc_service.c zrpc.pb-c.c
 PROTOSRCS = zrpc.proto
 
 DEPS = zrpc.h zrpc_pbc.h zrpc_debug.h
