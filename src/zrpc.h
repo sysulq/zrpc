@@ -10,7 +10,5 @@
 #include "zrpc_request.h"
 #include "zrpc_reply.h"
 
-#include "zrpc.pb-c.h"
-
 #endif
 

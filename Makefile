@@ -4,12 +4,12 @@ AR = ar
 LIBNAME = libzrpc.a
 
 TESTSRCS := test_client.c test_server.c
-LIBSRCS = zrpc_server.c zrpc_client.c zrpc_request.c zrpc_reply.c zrpc_service.c zrpc.pb-c.c
+LIBSRCS = zrpc_server.c zrpc_client.c zrpc_request.c zrpc_reply.c zrpc_service.c
 PROTOSRCS = zrpc.proto
 
 DEPS = zrpc.h zrpc_pbc.h zrpc_debug.h
 
-CFLAGS += -g -lzmq -lczmq -lprotobuf-c -I../include -I../deps/pbc
+CFLAGS += -g -lzmq -lczmq -I../include -I../deps/pbc
 
 all: $(BUILD) $(LIBNAME) test
 
